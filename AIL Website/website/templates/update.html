@@ -1,0 +1,69 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Home Page{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card" style="margin-top: 70px;">
+          <div class="card-body">
+            <h5 class="card-title text-center">Update a book</h5>
+
+            <form action="/update_book" method="post">
+              <div class="form-group">
+                <label for="book_id">Book ID:</label>
+                <input type="text" class="form-control" id="book_id" name="book_id" placeholder="Insert Book ID" required>
+              </div>
+
+              <div class="form-group">
+                <label for="attribute">Select Attribute:</label>
+                <select class="form-control" id="attribute" name="attribute">
+                  <option value="book_title">Book Title</option>
+                  <option value="book_author">Book Author</option>
+                  <option value="genre">Genre</option>
+                  <option value="specialty">Specialty</option>
+                  <option value="Difficulty">Difficulty</option>
+                  <option value="picture">Picture</option>
+                  <option value="Location">Location</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="new_value">New Value:</label>
+                <input type="text" class="form-control" id="new_value" name="new_value" placeholder="Enter New Value" required>
+              </div>
+                
+              {% if update_success is defined %}
+                {% if update_success %}
+                  <p class="text-success">Attribute successfully updated!</p>
+                {% else %}
+                  <p class="text-danger">Failed to update attribute. Please try again.</p>
+                {% endif %}
+              {% endif %}
+
+              <button type="submit" class="btn btn-primary text-center" style="margin-left: 300px;">Update</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<style>
+    .card {
+      background-color: #343a40;
+      color: #ffffff;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .card-body {
+      color: #ffffff;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% if session['role'] == 'student' %}
+    {% extends "base.html" %}
+{% elif session['role'] == 'admin' %}
+    {% extends "admin_base.html" %}
+{% endif %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<head> <script src="https://cdnjs.cloudflare.com/ajax/libs/typo/2.1.0/typo.min.js"></script></head>
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-4 text-center">
+  
+      <form action="/search" method="post" id="search-form">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="book_search" id="search-bar" placeholder="Search for books" list="book-list" aria-label="Search for books" aria-describedby="search-button">
+            <datalist id="book-list"></datalist>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" id="search-button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    {% if suggestions %}
+    <div class="suggestions">
+        <p>Suggestions:</p>
+        <ul>
+            {% for suggestion in suggestions %}
+                <li>{{ suggestion }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+    
+
+{% if session.role == 'student' %}
+<a href="{{ url_for('auth.suggestion') }}" class="btn btn-primary mt-2" data-toggle="tooltip" data-placement="right">
+    Suggest a book for me
+</a>
+<i class="fa fa-question-circle ml-1" data-toggle="tooltip" data-placement="right" title="This button recommends books for you based on your history and grades."></i>
+{% endif %}
+  </div>
+</div>
+<script>
+  // JavaScript code for autocomplete
+  document.addEventListener("DOMContentLoaded", function () {
+      var searchInput = document.getElementById("search-bar");
+      var datalist = document.getElementById("book-list");
+
+      searchInput.addEventListener("input", function () {
+          var inputValue = searchInput.value;
+
+          // Fetch suggestions from the server
+          fetch("/autocomplete?query=" + inputValue)
+              .then(response => response.json())
+              .then(data => {
+                  // Clear existing options
+                  datalist.innerHTML = "";
+
+                  // Add new options based on suggestions
+                  data.forEach(function (suggestion) {
+                      var option = document.createElement("option");
+                      option.value = suggestion;
+                      datalist.appendChild(option);
+                  });
+              })
+              .catch(error => console.error("Autocomplete error:", error));
+      });
+  });
+</script>
+
+
+{% endblock %}

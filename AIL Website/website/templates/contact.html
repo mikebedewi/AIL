@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Contact Page{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h5 class="card-title text-center">All Admins</h5>
+    <div class="row align-items-start row-cols-2">
+        {% if allAdmin %}
+        {% for result in allAdmin %}
+        <div class="col mb-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename= result.admin_picture_path ) }}" class="card-img-top" alt="..." style="height: 20rem;">
+
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ result.admin_name }} </h5>
+                    <p class="card-text">Email:{{ result.admin_email }} </p>
+                    <p class="card-text">Phone Number:{{ result.phone_number }}</p>
+                    
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col mb-2"></div>
+        <p class="text-center">There are no admins</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

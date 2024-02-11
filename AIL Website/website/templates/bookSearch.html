@@ -1,0 +1,37 @@
+{% if session['role'] == 'student' %}
+{% extends "base.html" %}
+{% elif session['role'] == 'admin' %}
+{% extends "admin_base.html" %}
+{% endif %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h5 class="card-title text-center">Search Results</h5>
+    <div class="row align-items-start row-cols-2">
+        {% if ss %}
+        {% for result in ss %}
+        <div class="col mb-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename= result[4] ) }}" class="card-img-top" alt="..." style="height: 300px;">
+
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ result[0] }} </h5>
+                    <p class="card-text">{{ result[1] }} - {{ result[2] }} - {{ result[3] }} </p>
+                    <p class="card-text">Location:</p>
+                    <p class="card-text">{{ result[5] }}</p>
+                    
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col mb-2"></div>
+        <p class="text-center">No results found.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

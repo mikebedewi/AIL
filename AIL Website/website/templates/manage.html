@@ -1,0 +1,52 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Update Page{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card" style="margin-top: 70px;">
+          <div class="card-body">
+            <h5 class="card-title text-center">Manage The database</h5>
+            <p class="card-text" style="border-top: 5px solid #ffffff; padding-top: 20px; position: relative;">
+              Add a book to the database
+              <a href="/add" class="btn btn-secondary btn-sm" style="position: absolute; right: 0;">Add</a>
+            </p>
+            <p class="card-text" style="border-top: 5px solid #ffffff; padding-top: 20px; position: relative;">
+              Update an existing book from the database
+              <a href="/update" class="btn btn-secondary btn-sm" style="position: absolute; right: 0;">Update</a>
+            </p>
+            <p class="card-text" style="border-top: 5px solid #ffffff; padding-top: 20px; position: relative;">
+              Remove a book from the database
+              <a href="/remove" class="btn btn-secondary btn-sm" style="position: absolute; right: 0;">Remove</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<style>
+    .card {
+      background-color: #343a40;
+      color: #ffffff;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .card-body {
+      color: #ffffff;
+    }
+
+    .card-text {
+      border-top: 5px solid #ffffff;
+      padding-top: 20px;
+      position: relative;
+    }
+
+    .btn-sm {
+      margin-top: 5px;
+    }
+</style>
+{% endblock %}

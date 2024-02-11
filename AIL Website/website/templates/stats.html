@@ -1,0 +1,103 @@
+{% if session['role'] == 'student' %}
+    {% extends "base.html" %}
+{% elif session['role'] == 'admin' %}
+    {% extends "admin_base.html" %}
+{% endif %}
+{% block title %}Statistics{% endblock %}
+{% block content %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Book Search History</h5>
+                    <canvas id="bookSearchChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Book Read History</h5>
+                    <canvas id="bookReadChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get data from Flask variables
+    var searchLabels = {{search_labels_json }};
+    var searchValues = {{ search_values_json }};
+    var readLabels = {{ read_labels_json }};
+    var readValues = {{ read_values_json }};
+
+    // Create a bar chart for search history
+    var ctxSearch = document.getElementById('bookSearchChart').getContext('2d');
+    var bookSearchChart = new Chart(ctxSearch, {
+        type: 'bar',
+        data: {
+            labels: searchLabels,
+            datasets: [{
+                label: 'Search Count',
+                data: searchValues,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Create a bar chart for read history
+    var ctxRead = document.getElementById('bookReadChart').getContext('2d');
+    var bookReadChart = new Chart(ctxRead, {
+        type: 'bar',
+        data: {
+            labels: readLabels,
+            datasets: [{
+                label: 'Read Count',
+                data: readValues,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    .card {
+      background-color: #343a40;
+      color: #ffffff;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .card-body {
+      color: #ffffff;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+</style>
+{% endblock %}

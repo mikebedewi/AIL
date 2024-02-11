@@ -1,0 +1,53 @@
+{% if session['role'] == 'student' %}
+    {% extends "base.html" %}
+{% elif session['role'] == 'admin' %}
+    {% extends "admin_base.html" %}
+{% endif %}
+
+{% block title %}Suggestion Page{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h5 class="card-title text-center">All Books</h5>
+    <br>
+    <div class="row row-cols-2 justify-content-center align-items-center">
+        {% if suggestedBook %}
+        {% for result in suggestedBook %}
+        <div class="col mb-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename= result.book_picture_path ) }}" class="card-img-top" alt="..." style="height: 20rem;">
+
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ result.book_title }} </h5>
+                    <p class="card-text">Author:{{ result.book_author }} </p>
+                    <p class="card-text">Genre:{{ result.genre }}</p>
+                    {%if result.available == 1 %}
+                    <p class="card-text">Available: Yes</p>
+                    {% else %}
+                    <p class="card-text">Available: No</p>
+                    {% endif %}
+                    <p class="card-text">Specialty:{{ result.specialty }}</p>
+                    {%if result.difficulty == 0 %}
+                    <p class="card-text">Difficulty: Beginner</p>
+                    {% elif result.difficulty == 1 %}
+                    <p class="card-text">Difficulty: Intermediate</p>
+                    {% else %}
+                    <p class="card-text">Difficulty: Advanced</p>
+                    {% endif %}
+
+                    <p class="card-text">Location:{{ result.location }}</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col mb-2"></div>
+        <p class="text-center">There are no books</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+
